@@ -4,6 +4,7 @@ import cv2
 import json
 import numpy as np
 import cPickle
+import os
 
 def set_default(obj):
     if isinstance(obj, set):
@@ -11,23 +12,22 @@ def set_default(obj):
     raise TypeError
 
 def main():
-    fn = facenet()
+
     data = {}
 
-    with open('data.json', 'r') as outfile:
-        data = cPickle.load(outfile)
+    if os.path.exists('data.json'):
+        with open('data.json', 'r') as outfile:
+            data = cPickle.load(outfile)
 
-    wc = webcam(data)
-    # wc.video_capture('Dulan')
+    fn = facenet()
 
-    # image = cv2.imread('/home/dulan/PycharmProjects/keras-facenet/data/test/gallary/q2.jpg')
-    # print wc.data['Dulan'].shape
-    # cv2.imshow('Disp', np.array(wc.data['Dulan'][0], dtype=np.uint8))
-    # cv2.waitKey(0)
-    print fn.proc_image(np.array(wc.data['Dulan'][0]))
-    #
-    # wc.video_capture('Sharada')
-    #
+    wc = webcam(data, fn_o= fn)
+    wc.video_capture('Dulan')
+
+    print wc.data['Dulan']['image'][0]
+    print "FEA"
+    print wc.data['Dulan']['feature'][0]
+
     with open('data.json', 'w') as outfile:
         cPickle.dump(wc.data, outfile)
 

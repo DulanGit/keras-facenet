@@ -83,6 +83,10 @@ class facenet:
         print "Obtaining feature vector..."
         return self.model.predict(self.prewhiten(np.array([resize(image, (self.image_size, self.image_size), mode='reflect')])))
 
+    def proc_images(self, images):
+        print "Obtaining feature vector..."
+        return self.model.predict(self.prewhiten(np.array([resize(image, (self.image_size, self.image_size), mode='reflect') for image in images])))
+
     def main(self):
         print("Processing gallary...")
         data_g = {}

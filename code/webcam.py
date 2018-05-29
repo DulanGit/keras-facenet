@@ -4,14 +4,16 @@ import cv2 as cv
 import sys
 import numpy as np
 
+
 class webcam():
-    def __init__(self, data={}):
+    def __init__(self, data={}, fn_o = None):
         self.vc =None
         self.margin = params.MARGIN
         cascade_path = '../model/cv2/haarcascade_frontalface_alt2.xml'
         self.cascade = cv.CascadeClassifier(cascade_path)
-        self.n_img_per_person = 2
+        self.n_img_per_person = 1
         self.data = data
+        self.fn_o = fn_o
 
     def video_capture(self, name='Unknown'):
         vc = cv.VideoCapture(0)
@@ -60,13 +62,16 @@ class webcam():
                     txt_loc = (left+120, bottom - 20)
                     cv.putText(frame, capture_text, txt_loc, cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
                 else:
-                    self.data[name] = np.array(imgs)
+                    self.data[name] = {}
+                    if self.fn_o is not None:
+                        fea = self.fn_o.proc_images(imgs)
+                        print fea
+                        self.data[name]['feature'] = fea
+                    self.data[name]['image'] = np.array(imgs)
                 cv.imshow('display', frame)
                 cv.waitKey(0)
                 vc.release()
-
-
-                break
+                return 0
             frame = cv.cvtColor(frame, cv.COLOR_RGB2BGR)
             cv.imshow('display', frame)
             key_input = cv.waitKey(1)

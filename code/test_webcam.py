@@ -19,6 +19,8 @@ def main():
     # wc.video_capture('Dulan')
     wc.video_capture('Sharada')
 
+    print wc.data['Dulan']['feature']
+
     with open('data.json', 'w') as outfile:
         cPickle.dump(wc.data, outfile)
     # print type(wc.data)

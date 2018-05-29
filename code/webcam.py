@@ -1,3 +1,5 @@
+from params import params
+
 import cv2 as cv
 import sys
 import numpy as np
@@ -5,7 +7,7 @@ import numpy as np
 class webcam():
     def __init__(self, data={}):
         self.vc =None
-        self.margin = 10
+        self.margin = params.MARGIN
         cascade_path = '../model/cv2/haarcascade_frontalface_alt2.xml'
         self.cascade = cv.CascadeClassifier(cascade_path)
         self.n_img_per_person = 2
@@ -58,7 +60,7 @@ class webcam():
                     txt_loc = (left+120, bottom - 20)
                     cv.putText(frame, capture_text, txt_loc, cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
                 else:
-                    self.data[name] = imgs  # np.array(imgs)
+                    self.data[name] = np.array(imgs)
                 cv.imshow('display', frame)
                 cv.waitKey(0)
                 vc.release()

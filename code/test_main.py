@@ -1,8 +1,5 @@
 from webcam import webcam
 from facenet import facenet
-import cv2
-import json
-import numpy as np
 import cPickle
 import os
 
@@ -12,7 +9,7 @@ def set_default(obj):
     raise TypeError
 
 def main():
-
+    save = True
     data = {}
 
     if os.path.exists('data.json'):
@@ -22,14 +19,17 @@ def main():
     fn = facenet()
 
     wc = webcam(data, fn_o= fn)
-    wc.video_capture('Dulan')
+    # wc.video_capture('Murali')
+    wc.detect_face()
 
-    print wc.data['Dulan']['image'][0]
-    print "FEA"
-    print wc.data['Dulan']['feature'][0]
-
-    with open('data.json', 'w') as outfile:
-        cPickle.dump(wc.data, outfile)
+    # wc.video_capture('Dilina')
+    #
+    # print wc.data['Dulan']['image'][0]
+    # print "FEA"
+    # print wc.data['Dulan']['feature'][0]
+    if save:
+        with open('data.json', 'w') as outfile:
+            cPickle.dump(wc.data, outfile)
 
 
 if __name__=='__main__':
